@@ -1,10 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 app.use(express.json());
-
-const cors = require('cors');
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173' }));
 
 let notes = [
   { id: 1, title: 'First note', content: 'Hello Express' },
@@ -57,6 +56,7 @@ app.delete('/notes/:id', (req, res) => {
   res.json({ message: 'Note deleted' });
 });
  
-app.listen(3000, () => {
-  console.log('Running on http://localhost:3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Running on port ${PORT}`);
 });
